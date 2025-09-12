@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact – Filip Josifoski</title>
+  <meta name="description" content="Kontakt: email, telefon i forma za saradnju." />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles2.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="Početak">
+        <img class="logo" src="assets/logo.svg" alt="FJ monogram" width="28" height="28" />
+        <span class="brand-name">Filip Josifoski</span>
+      </a>
+      <nav aria-label="Primary">
+        <a href="index.html">Portfolio</a>
+        <a href="about.html">About</a>
+        <a class="active" href="contact.html">Contact</a>
+        <a class="icon-link" href="https://instagram.com/filipjosifoski" target="_blank" rel="noopener" aria-label="Instagram – Filip Josifoski">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5A5.5 5.5 0 1 1 6.5 13 5.5 5.5 0 0 1 12 7.5Zm0 2A3.5 3.5 0 1 0 15.5 13 3.5 3.5 0 0 0 12 9.5Zm5.75-2.75a1.25 1.25 0 1 1-1.25 1.25 1.25 1.25 0 0 1 1.25-1.25Z"/></svg>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="section-inner narrow">
+        <h2>Contact</h2>
+        <div class="contact-wrap">
+          <!-- Levo: kontakt info -->
+          <div class="contact-info">
+            <ul class="contact-list">
+              <li><strong>Phone:</strong> <a href="tel:+381601234567">+381 60 123 4567</a></li>
+              <li><strong>Email:</strong> <a href="mailto:filipjosifoski22@gmail.com">filipjosifoski22@gmail.com</a></li>
+              <li><strong>Instagram:</strong> <a class="icon-link" target="_blank" rel="noopener" href="https://instagram.com/filipjosifoski">@filipjosifoski</a></li>
+            </ul>
+          </div>
+
+          <!-- Desno: forma -->
+          <form id="contactForm" action="https://formspree.io/f/xdkleryo" method="POST" class="contact-form" novalidate>
+            <div class="row">
+              <input type="text" name="name" placeholder="Name" required autocomplete="name">
+              <input type="email" name="email" placeholder="Email" required autocomplete="email">
+            </div>
+            <textarea name="message" rows="6" placeholder="Message" required autocomplete="off"></textarea>
+            <!-- honeypot -->
+            <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+            <button type="submit" class="btn-primary">Send Message</button>
+            <p class="form-status" aria-live="polite" id="formStatus"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">© <span id="year"></span> Filip Josifoski</footer>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- krug/okvir -->
+  <circle cx="32" cy="32" r="30" fill="none" stroke="#171717" stroke-width="2"/>
+  <!-- "C" kao otvor objektiva -->
+  <path d="M42 19a16 16 0 1 0 0 26" fill="none" stroke="#171717" stroke-width="3" stroke-linecap="round"/>
+  <!-- mala akcent tačka (zatvara 'moment') -->
+  <circle cx="46" cy="32" r="3.2" fill="#ff7a1a"/>
+</svg>
