@@ -11,7 +11,21 @@
   --header: #f1eee7;
   /* boja headera */
 }
+:root{
+  --bg:#f9f7f3;
+  --fg:#131313;
+  --muted:#6b6b6b;
+  --line:#e9e3d9;
+  --gutter:22px;   /* veći razmak među fotkama */
+  --header:#ffffffcc;
+}
+:root{
+  --accent: #ff7a1a; /* narandžasta linija/detalji */
+  --brand-fg: #171717;
+}
 
+.u-muted{ color: var(--muted); }
+.u-accent{ color: var(--accent); }
 *,
 :before,
 :after {
@@ -29,6 +43,8 @@ body {
   color: var(--fg);
   font: 16px/1.6 Manrope, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+    padding-top: var(--header-h, 56px); /* prostor za header */
+
 }
 
 a {
@@ -43,13 +59,14 @@ img {
 }
 
 /* Header */
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: var(--header);
-  backdrop-filter: saturate(180%) blur(6px);
-  border-bottom: 1px solid var(--line);
+.site-header{
+  position:sticky; top:0; z-index:20;
+  background:var(--header);
+  backdrop-filter:saturate(180%) blur(8px);
+  border-bottom:1px solid rgba(0,0,0,.04);
+   position: fixed;   /* umesto sticky */
+  top: 0; left: 0; right: 0;
+  z-index: 1000;     /* iznad sadržaja */
 }
 
 .header-inner {
@@ -88,6 +105,8 @@ nav a {
 nav a:hover {
   opacity: 1;
 }
+nav a.active, nav a:hover{ opacity:1; font-weight:700; }
+
 
 .icon-link {
   display: inline-flex;
@@ -115,31 +134,19 @@ main {
   display: block;
 }
 
-.jg-row {
-  display: flex;
-  gap: var(--gutter);
-  margin-bottom: var(--gutter);
+.jg-row{ display:flex; gap:var(--gutter); margin-bottom:var(--gutter); }
+.jg-item{
+  position:relative; overflow:hidden;
+  background:#fff;         /* ili transparent ako ne želiš belu “ploču” */
+  border-radius:10px;
+  break-inside: avoid;
 }
+.jg-item img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  transition:transform .35s ease, filter .35s ease;
+}
+.jg-item:hover img{ transform:scale(1.015); filter:brightness(1.03); }
 
-.jg-item {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  background: #fff;
-}
-
-.jg-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform .35s ease, filter .35s ease;
-}
-
-.jg-item:hover img {
-  transform: scale(1.02);
-  filter: brightness(1.02);
-}
 
 /* (opciono) sitan hover shadow */
 .jg-item {
@@ -152,7 +159,7 @@ main {
   box-shadow: 0 10px 24px rgba(0, 0, 0, .08);
 }
 
-.item {
+/* .item {
   background: #fff;
   display: block;
   margin: 0 0 var(--gutter);
@@ -168,7 +175,7 @@ main {
 .item:hover img {
   transform: scale(1.01);
   filter: brightness(1.02);
-}
+} */
 
 /* Sections */
 .section {
@@ -363,3 +370,118 @@ h2 {
   color: #fff;
   text-align: center;
 }
+
+/* ===== About Hero (overlap) ===== */
+.about-hero{ padding: 60px 0; background: var(--bg); }
+
+.about-grid{
+  position:relative;
+  display:grid; gap:28px;
+  max-width:1200px; margin:0 auto; padding:0 20px;
+  align-items:center;
+}
+
+/* desktop: 2 kolone, slika i blok */
+@media (min-width: 980px){
+  .about-grid{
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+}
+
+/* foto ploča */
+.about-photo{
+  position:relative;
+}
+.about-photo img{
+  width:100%; height:auto; display:block;
+  border-radius:14px;
+  object-fit:cover;
+  box-shadow: 0 20px 40px rgba(0,0,0,.12);
+}
+
+/* tekst blok koji prelazi preko slike */
+.about-block{
+  position:relative;
+  z-index:2;
+  background:#111; color:#fff;
+  border-radius:14px;
+  padding:38px 36px;
+  box-shadow: 0 14px 38px rgba(0,0,0,.28);
+  border:1px solid rgba(255,255,255,.06);
+}
+
+/* akcent detalj (linija) */
+.about-line{
+  display:block;
+  width:120px; height:4px; background:var(--accent);
+  margin-bottom:24px; border-radius:2px;
+}
+
+/* tipografija */
+.about-title{
+  font-size: clamp(44px, 6vw, 70px);
+  font-weight: 900; line-height: .95;
+  margin: 0 0 12px; text-transform: uppercase;
+}
+.about-subtitle{
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight:700; margin: 0 0 18px; color:#f3f3f3;
+}
+.about-block p{ margin:0 0 14px; line-height:1.75; color:#e8e8e8; }
+.about-block p.u-muted{ color:#cfcfcf; }
+
+/* ------------------ Overlap varijante ------------------ */
+/* is-left-overlap = tekst levo, prelazi u desno preko slike */
+@media (min-width: 980px){
+  .about-grid.is-left-overlap .about-block{
+    transform: translateX(50px);      /* blagi ulazak u foto */
+  }
+  .about-grid.is-left-overlap .about-photo{
+    margin-right: 40px;               /* prostor da blok "uđe" */
+  }
+}
+
+/* is-right-overlap = tekst desno, prelazi levo preko slike */
+@media (min-width: 980px){
+  .about-grid.is-right-overlap{
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+  .about-grid.is-right-overlap .about-block{
+    order:2; transform: translateX(-50px);
+  }
+  .about-grid.is-right-overlap .about-photo{
+    order:1; margin-left: 40px;
+  }
+}
+
+/* Mobilno ponašanje: bez overlapa, sve ispod svega */
+@media (max-width: 979.98px){
+  .about-block{ transform:none; }
+  .about-grid .about-photo,
+  .about-grid .about-block{ margin:0; }
+}
+
+/* ===== Brand header refresh ===== */
+.brand{
+  display:flex; gap:10px; align-items:center;
+  text-decoration:none;
+}
+.brand .logo{ flex:0 0 auto; display:block; }
+.brand-stack{ display:flex; flex-direction:column; line-height:1.05; }
+.brand-name{
+  font-weight:800; letter-spacing:.01em;
+  color:var(--brand-fg);
+}
+.brand-tagline{
+  font-size:12px; color:var(--muted); margin-top:2px;
+}
+
+/* manji header na mobilu */
+@media (max-width:720px){
+  .brand-name{ font-size:16px; }
+  .brand-tagline{ font-size:11px; }
+}
+
+
+/* aktivni link u navigaciji (ako ga nemaš već) */
+nav a.active, nav a:hover{ opacity:1; font-weight:700; }
