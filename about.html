@@ -4,10 +4,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>About – Filip Josifoski</title>
+    <title>About – Capture moments</title>
     <meta name="description" content="O fotografu – pristup, fokus i usluge." />
     <meta name="robots" content="noindex, nofollow">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&display=swap"
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css" />
 </head>
@@ -24,10 +26,16 @@
                 <a href="contact.html">Kontakt</a>
                 <!-- Instagram ikonica je opciono; može i običan link -->
                 <a class="icon-link" href="#" rel="noopener" aria-label="Instagram">
-                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" width="20" height="20">
+                    <svg class="e-font-icon-svg e-fab-instagram" viewBox="0 0 448 512"
+                        xmlns="http://www.w3.org/2000/svg">
                         <path
-                            d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11zm0 2a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm5.25-.75a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z"
-                            fill="currentColor" />
+                            d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 
+                            74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 
+                            27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 
+                            184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 
+                            0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7
+                             9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z">
+                        </path>
                     </svg>
                 </a>
             </nav>
@@ -36,36 +44,33 @@
 
     <main>
         <main>
+            <!-- HERO: full-width foto -->
+            <section class="hero-full">
+                <img src="assets/hero-image.webp" alt="Hero fotografija – venčanje">
+            </section>
+            <!-- TEKST BLOK koji prelazi preko slike -->
             <section class="section about-hero">
-                <div class="about-grid is-left-overlap">
-                    <!-- FOTO PANEL -->
-                    <div class="about-photo">
-                        <img src="images/2.jpg" alt="Portret autora">
-                    </div>
 
-                    <!-- TEKST BLOK koji prelazi preko slike -->
-                    <div class="about-block">
-                        <span class="about-line"></span>
-                        <h1 class="about-title">ABOUT.</h1>
-                        <h2 class="about-subtitle">Priče uhvaćene objektivom.</h2>
-                        <p>
-                            Ćao, ja sam Filip i fotografija je moj način da sačuvam trenutke koji imaju posebnu
-                            vrednost.
+                <div class="about-card">
+                    <span class="about-line"></span>
+                    <h1 class="about-title">O MENI.</h1>
+                    <h2 class="about-subtitle">Priče uhvaćene objektivom.</h2>
+                    <p>
+                        Ćao, ja sam Filip i fotografija je moj način da sačuvam trenutke koji imaju posebnu
+                        vrednost.
+                    </p>
+                    <p class="u-muted">
+                        Moj cilj je da kroz objektiv zabeležim trenutke koji pričaju priču – od veselih rođendana i
+                        svadbi, preko korporativnih proslava i radionica, pa sve do pažljivo pripremljene hrane i
+                        dekoracije.
 
-                        </p>
-                        <p class="u-muted">
-                            Moj cilj je da kroz objektiv zabeležim trenutke koji pričaju priču – od veselih rođendana i
-                            svadbi, preko korporativnih proslava i radionica, pa sve do pažljivo pripremljene hrane i
-                            dekoracije.
-
-                            Verujem da fotografija treba da prenese emociju i atmosferu, da bude uspomena kojoj se uvek
-                            vraćamo.
-                        </p>
-                    </div>
+                        Verujem da fotografija treba da prenese emociju i atmosferu, da bude uspomena kojoj se uvek
+                        vraćamo.
+                    </p>
                 </div>
             </section>
         </main>
-        <footer class="site-footer">© <span id="year"></span> Filip Josifoski</footer>
+        <footer class="site-footer">© <span id="year"></span> Capture Moments</footer>
         <script src="app.js"></script>
 </body>
 
