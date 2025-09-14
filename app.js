@@ -35,7 +35,6 @@ if (form) {
       btn.textContent = original;
     }
   });
-  // ako se vratiš nazad s history cache-a
   window.addEventListener('pageshow', (e) => { if (e.persisted) form.reset(); });
 }
 
@@ -45,8 +44,8 @@ function setupJustifiedGallery() {
   if (!container) return;
 
   const GAP = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gutter')) || 18;
-  const TARGET_ROW_H = 280;   // možeš 240–320 po ukusu
-  const MAX_ROW_DEV = 0.25;
+  const TARGET_ROW_H = 300;   // možeš 240–320 po ukusu
+  const MAX_ROW_DEV = 0.20;
   const JUSTIFY_LAST_ROW = true;
   const WIDOW_MIN_FILL = 0.95;
 
@@ -67,7 +66,6 @@ function setupJustifiedGallery() {
   });
 
   function layout() {
-    // pripremi listu (kloniramo <a> da bude čist re-render)
     const items = anchors.map(a => {
       const img = a.querySelector('img');
       const ar = (img.naturalWidth || 3) / (img.naturalHeight || 2);
@@ -90,16 +88,13 @@ function setupJustifiedGallery() {
       }
     }
 
-    // ako je ostalo još u poslednjem redu – logika završnog reda
     if (row.length) {
       const contentW = totalW - GAP * (row.length - 1);
       const lastRowWidthAtTarget = arSum * TARGET_ROW_H;
 
       if (JUSTIFY_LAST_ROW) {
-        // razvuci i poslednji red
         renderRow(row, totalW, GAP, arSum, /*isLast=*/false);
       } else {
-        // widow control: ako je <85% širine, pokušaj da uzmeš fotke iz prethodnog reda
         let fillRatio = lastRowWidthAtTarget / contentW;
 
         if (fillRatio < WIDOW_MIN_FILL && container.lastElementChild) {
@@ -128,7 +123,6 @@ function setupJustifiedGallery() {
           }
           renderRow(row, totalW, GAP, arSum, /*isLast=*/false);
         } else {
-          // poslednji red ostavi na target visini (ne-justify)
           renderRow(row, totalW, GAP, arSum, /*isLast=*/true);
         }
       }
@@ -154,66 +148,80 @@ function setupJustifiedGallery() {
 
     container.appendChild(rowEl);
   }
-  // function renderRow(row, totalW, gap, arSum, isLast) {
-  //   const rowEl = document.createElement('div');
-  //   rowEl.className = 'jg-row';
-  //   rowEl.style.gap = gap + 'px';
-
-  //   if (isLast) {
-  //     rowEl.style.justifyContent = 'center'; // centriraj poslednji red
-  //   }
-
-  //   const h = isLast
-  //     ? TARGET_ROW_H
-  //     : ((totalW - gap * (row.length - 1)) / arSum);
-
-  //   row.forEach(({ a, ar }) => {
-  //     const w = h * ar;
-  //     const wrap = document.createElement('div');
-  //     wrap.className = 'jg-item';
-  //     wrap.style.width = w + 'px';
-  //     wrap.style.height = h + 'px';
-  //     wrap.appendChild(a);
-  //     rowEl.appendChild(wrap);
-  //   });
-
-  //   container.appendChild(rowEl);
-  // }
-//   function renderRow(row, totalW, gap, arSum, isLast) {
-//   const rowEl = document.createElement('div');
-//   rowEl.className = 'jg-row';
-//   rowEl.style.gap = gap + 'px';
-
-//   const fillH = (totalW - gap * (row.length - 1)) / arSum;
-//   const MAX_SCALE = 1.08; // max 8% veći od target visine
-
-//   const h = isLast
-//     ? Math.min(fillH, TARGET_ROW_H * MAX_SCALE)
-//     : fillH;
-
-//   row.forEach(({ a, ar }) => {
-//     const w = h * ar;
-//     const wrap = document.createElement('div');
-//     wrap.className = 'jg-item';
-//     wrap.style.width = w + 'px';
-//     wrap.style.height = h + 'px';
-//     wrap.appendChild(a);
-//     rowEl.appendChild(wrap);
-//   });
-
-//   container.appendChild(rowEl);
-// }
-
+  
 }
 
-// pokreni kada se DOM učita
 document.addEventListener('DOMContentLoaded', () => {
   setupJustifiedGallery();
 });
 const header = document.querySelector('.site-header');
-function setHeaderOffset(){
+function setHeaderOffset() {
   if (!header) return;
   document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
 }
 setHeaderOffset();
 window.addEventListener('resize', setHeaderOffset);
+
+(function () {
+  const body = document.body;
+  const burger = document.querySelector('.burger');
+  const nav = document.getElementById('primary-nav');
+  const overlay = document.querySelector('.nav-overlay');
+
+  if (!burger || !nav || !overlay) return;
+
+  const open = () => {
+    body.classList.add('nav-open');
+    burger.setAttribute('aria-expanded', 'true');
+    overlay.hidden = false;
+    const firstLink = nav.querySelector('a[href]');
+    if (firstLink) firstLink.focus({ preventScroll: true });
+  };
+
+  const close = () => {
+    body.classList.remove('nav-open');
+    burger.setAttribute('aria-expanded', 'false');
+    overlay.hidden = true;
+    burger.focus({ preventScroll: true });
+  };
+
+  burger.addEventListener('click', (e) => {
+    const isOpen = body.classList.contains('nav-open');
+    isOpen ? close() : open();
+  });
+
+  overlay.addEventListener('click', close);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && body.classList.contains('nav-open')) {
+      close();
+    }
+  });
+
+  nav.addEventListener('click', (e) => {
+    const target = e.target.closest('a[href]');
+    if (target) close();
+  });
+
+  const mql = window.matchMedia('(max-width: 900px)');
+  const handleMQ = () => {
+    if (!mql.matches && body.classList.contains('nav-open')) {
+      close();
+    }
+  };
+  mql.addEventListener ? mql.addEventListener('change', handleMQ) : mql.addListener(handleMQ);
+})();
+
+const backToTop = document.getElementById("backToTop");
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 400) {
+    backToTop.classList.add("show");
+  } else {
+    backToTop.classList.remove("show");
+  }
+});
+
+backToTop.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});

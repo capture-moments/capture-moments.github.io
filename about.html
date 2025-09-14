@@ -12,20 +12,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css" />
+       <link rel="icon" type="image/png" href="assets/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="assets/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="MyWebSite" />
+    <link rel="manifest" href="assets/favicon/site.webmanifest" />
 </head>
 
 <body>
-    <header class="site-header">
+     <header class="site-header">
         <div class="header-inner">
-            <a class="brand" href="index.html" aria-label="Početak">
+            <a class="brand" href="index.html" aria-label="Home">
                 <img class="logo" src="assets/logo.svg" alt="CAPTURE MOMENTS" />
             </a>
-            <nav aria-label="Primary">
+
+            <button class="burger" aria-label="Otvori meni" aria-expanded="false" aria-controls="primary-nav">
+                <span class="burger-box" aria-hidden="true">
+                    <span class="burger-inner"></span>
+                </span>
+            </button>
+
+            <nav id="primary-nav" aria-label="Primary">
                 <a href="index.html">Portfolio</a>
-                <a class="active" href="about.html">O meni</a>
+                <a  class="active" href="about.html">O meni</a>
                 <a href="contact.html">Kontakt</a>
-                <!-- Instagram ikonica je opciono; može i običan link -->
-                <a class="icon-link" href="#" rel="noopener" aria-label="Instagram">
+                <a class="icon-link" href="https://instagram.com/filipjosifoski" target="_blank" rel="noopener"
+                    aria-label="Instagram">
                     <svg class="e-font-icon-svg e-fab-instagram" viewBox="0 0 448 512"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -40,38 +53,35 @@
                 </a>
             </nav>
         </div>
+
+        <div class="nav-overlay" hidden></div>
     </header>
 
+
     <main>
-        <main>
-            <!-- HERO: full-width foto -->
-            <section class="hero-full">
-                <img src="assets/hero-image.webp" alt="Hero fotografija – venčanje">
-            </section>
-            <!-- TEKST BLOK koji prelazi preko slike -->
-            <section class="section about-hero">
+  <section class="hero-stack">
+    <div class="hero-full" style="--hero-obj: 50% 40%;">
+      <img src="assets/hero-image.webp" alt="Hero fotografija – venčanje">
+    </div>
 
-                <div class="about-card">
-                    <span class="about-line"></span>
-                    <h1 class="about-title">O MENI.</h1>
-                    <h2 class="about-subtitle">Priče uhvaćene objektivom.</h2>
-                    <p>
-                        Ćao, ja sam Filip i fotografija je moj način da sačuvam trenutke koji imaju posebnu
-                        vrednost.
-                    </p>
-                    <p class="u-muted">
-                        Moj cilj je da kroz objektiv zabeležim trenutke koji pričaju priču – od veselih rođendana i
-                        svadbi, preko korporativnih proslava i radionica, pa sve do pažljivo pripremljene hrane i
-                        dekoracije.
+    <div class="overlap-card">
+      <div class="card-inner">
+        <span class="about-line"></span>
+        <h1 class="about-title">O MENI</h1>
+        <h2 class="about-subtitle">Priče uhvaćene objektivom.</h2>
+        <p>Ćao, ja sam Filip i fotografija je moj način da sačuvam trenutke koji imaju posebnu vrednost.</p>
+        <p class="u-muted">
+          Moj cilj je da kroz objektiv zabeležim trenutke koji pričaju priču – od veselih rođendana i svadbi, preko
+          korporativnih proslava i radionica, pa sve do pažljivo pripremljene hrane i dekoracije. Verujem da fotografija
+          treba da prenese emociju i atmosferu, da bude uspomena kojoj se uvek vraćamo.
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
 
-                        Verujem da fotografija treba da prenese emociju i atmosferu, da bude uspomena kojoj se uvek
-                        vraćamo.
-                    </p>
-                </div>
-            </section>
-        </main>
-        <footer class="site-footer">© <span id="year"></span> Capture Moments</footer>
-        <script src="app.js"></script>
+    <footer class="site-footer">© <span id="year"></span> Capture Moments</footer>
+    <script src="app.js"></script>
 </body>
 
 </html>

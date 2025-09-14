@@ -1,15 +1,10 @@
-
 :root {
   --bg: #f9f7f3;
   --fg: #131313;
   --muted: #6b6b6b;
   --line: #e9e3d9;
   --gutter: 22px;
-  /* veći razmak među fotkama */
   --header: #ffffffcc;
-}
-
-:root {
   --accent: #49734a;
   --brand-fg: #49734a;
 }
@@ -40,8 +35,6 @@ body {
   font: 16px/1.6 "Raleway", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   padding-top: var(--header-h, 56px);
-  /* prostor za header */
-
 }
 
 a {
@@ -64,12 +57,10 @@ img {
   backdrop-filter: saturate(180%) blur(8px);
   border-bottom: 1px solid rgba(0, 0, 0, .04);
   position: fixed;
-  /* umesto sticky */
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  /* iznad sadržaja */
 }
 
 .header-inner {
@@ -105,14 +96,17 @@ nav a {
   position: relative;
   font-weight: 400;
 }
-nav svg{
+
+nav svg {
   width: 20px;
 }
+
 nav a.icon-link:hover {
   opacity: 1;
 }
+
 nav a.icon-link:hover::after {
-content: none;
+  content: none;
 }
 
 nav a.active:after,
@@ -166,7 +160,6 @@ main {
   position: relative;
   overflow: hidden;
   background: #fff;
-  /* ili transparent ako ne želiš belu “ploču” */
   border-radius: 10px;
   break-inside: avoid;
 }
@@ -184,8 +177,6 @@ main {
   filter: brightness(1.03);
 }
 
-
-/* (opciono) sitan hover shadow */
 .jg-item {
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   transition: box-shadow .25s;
@@ -195,24 +186,6 @@ main {
 .jg-item:hover {
   box-shadow: 0 10px 24px rgba(0, 0, 0, .08);
 }
-
-/* .item {
-  background: #fff;
-  display: block;
-  margin: 0 0 var(--gutter);
-  break-inside: avoid;
-}
-
-.item img {
-  width: 100%;
-  height: auto;
-  transition: transform .35s ease, filter .35s ease;
-}
-
-.item:hover img {
-  transform: scale(1.01);
-  filter: brightness(1.02);
-} */
 
 /* Sections */
 .section {
@@ -255,13 +228,6 @@ h2 {
   grid-template-columns: 1fr;
 }
 
-@media (min-width:900px) {
-  .contact-wrap {
-    grid-template-columns: 1fr 1.2fr;
-    align-items: start;
-  }
-}
-
 .contact-info .muted {
   margin: 0 0 16px;
   max-width: 52ch;
@@ -274,7 +240,9 @@ h2 {
 }
 
 .contact-list li {
-  margin: 8px 0;
+  margin: 10px 0;
+  display: flex;
+  gap: 15px;
 }
 
 .contact-list a {
@@ -296,12 +264,6 @@ h2 {
   display: grid;
   gap: 12px;
   grid-template-columns: 1fr;
-}
-
-@media (min-width:620px) {
-  .contact-form .row {
-    grid-template-columns: 1fr 1fr;
-  }
 }
 
 .contact-form input,
@@ -355,68 +317,6 @@ h2 {
   color: #c62828;
 }
 
-/* Lightbox */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  display: none;
-  place-items: center;
-  background: rgba(0, 0, 0, .92);
-  z-index: 100;
-}
-
-.lightbox.active {
-  display: grid;
-}
-
-.lightbox img {
-  max-width: min(92vw, 1400px);
-  max-height: 86vh;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, .35);
-}
-
-.lb-ui {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-}
-
-.lb-top {
-  position: absolute;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-  pointer-events: auto;
-}
-
-.btn-small {
-  background: #ffffff14;
-  border: 1px solid #ffffff2e;
-  color: #fff;
-  padding: 8px 12px;
-  cursor: pointer;
-}
-
-.lb-bottom {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 12px;
-  color: #fff;
-  text-align: center;
-}
-
-/* Full-width hero image */
-.hero-full img {
-  display: block;
-  width: 100%;
-  height: 60vh;
-  /* 60–80vh po ukusu; 100vh za fullscreen */
-  object-fit: cover;
-}
-
 /* Card blok ispod hero fotke */
 .info-card {
   display: flex;
@@ -430,77 +330,26 @@ h2 {
   color: var(--fg);
   padding: 32px;
   max-width: 900px;
-  /* 800–960px fino izgleda */
   width: 100%;
   box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
   border: 1px solid var(--line);
 }
 
-/* ===== About Hero (overlap) ===== */
-.about-card{
-      display: flex;
-    justify-content: center;
-    padding: 50px 20px;
-    background: var(--bg);
-    flex-direction: column;
-    max-width: 700px;
-    margin: 0 auto;
-}
-.about-hero {
-  padding: 60px 0;
-  background: var(--bg);
-}
-
-.about-grid {
-  position: relative;
-  display: grid;
-  gap: 28px;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  align-items: center;
-}
-
-
-/* desktop: 2 kolone, slika i blok */
-@media (min-width: 980px) {
-  .about-grid {
-    grid-template-columns: 1.1fr 0.9fr;
-  }
-}
-
-/* foto ploča */
-.about-photo {
+.hero-wrapper {
   position: relative;
 }
 
-.about-photo img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 14px;
-  object-fit: cover;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, .12);
-}
-
-/* tekst blok koji prelazi preko slike */
-.about-block {
-  position: relative;
-  z-index: 2;
-  background: #111;
-  color: #fff;
-  border-radius: 14px;
-  padding: 38px 36px;
-  box-shadow: 0 14px 38px rgba(0, 0, 0, .28);
-  border: 1px solid rgba(255, 255, 255, .06);
+.info-card {
+  position: absolute;
+  bottom: 0;
 }
 
 /* akcent detalj (linija) */
 .about-line,
 .contact-line {
   display: block;
-  width: 120px;
-  height: 4px;
+  width: 180px;
+  height: 5px;
   background: var(--accent);
   margin-bottom: 24px;
   border-radius: 2px;
@@ -510,10 +359,11 @@ h2 {
 .about-title,
 .contact-title {
   font-size: clamp(44px, 6vw, 70px);
-  font-weight: 900;
-  line-height: .95;
+  font-weight: 500;
+  line-height: 1;
   margin: 0 0 12px;
   text-transform: uppercase;
+  letter-spacing: 10px;
 }
 
 .about-subtitle {
@@ -533,23 +383,391 @@ h2 {
   color: #cfcfcf;
 }
 
-/* ------------------ Overlap varijante ------------------ */
-/* is-left-overlap = tekst levo, prelazi u desno preko slike */
-@media (min-width: 980px) {
-  .about-grid.is-left-overlap .about-block {
-    transform: translateX(50px);
-    /* blagi ulazak u foto */
-  }
-
-  .about-grid.is-left-overlap .about-photo {
-    margin-right: 40px;
-    /* prostor da blok "uđe" */
-  }
-}
-.e-fab-instagram{
+.e-fab-instagram {
   fill: currentColor;
   width: 20px;
 }
 
+/* ===== Burger (skriven na desktopu) ===== */
+.burger {
+  display: none;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.burger:focus-visible {
+  outline: 2px solid #49734a;
+  outline-offset: 2px;
+}
+
+.burger-box {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 9999;
+}
+
+.burger-inner,
+.burger-inner::before,
+.burger-inner::after {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--fg);
+  transition: transform .25s ease, opacity .2s ease, top .25s ease, bottom .25s ease, background .25s ease;
+  position: relative;
+}
+
+.burger-inner::before {
+  position: absolute;
+  top: -7px;
+}
+
+.burger-inner::after {
+  position: absolute;
+  bottom: -7px;
+}
+
+/* stanje otvoreno */
+.nav-open .burger-inner {
+  transform: rotate(45deg);
+}
+
+.nav-open .burger-inner::before {
+  top: 0;
+  transform: rotate(90deg);
+}
+
+.nav-open .burger-inner::after {
+  bottom: 0;
+  opacity: 0;
+}
+
+/* overlap card setup */
+:root {
+  --overlap: 30px;
+}
+
+.hero-stack {
+  position: relative;
+}
+
+.hero-stack .info-card {
+  position: relative;
+  width: min(900px, calc(100% - 250px));
+  margin: calc(-4 * var(--overlap)) auto 96px;
+  padding: 0;
+  background: transparent;
+}
+
+.hero-stack .info-card .card-inner {
+  background: #fff;
+  color: var(--fg);
+  padding: 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+}
+
+:root {
+  --overlap: 30px;
+  --radius: 20px;
+}
+
+.hero-stack {
+  position: relative;
+}
+
+.overlap-card {
+  position: relative;
+  width: min(800px, calc(100% - 40px));
+  margin: calc(-4 * var(--overlap)) auto 96px;
+  background: transparent;
+  padding: 0;
+  z-index: 2;
+}
+
+.overlap-card .card-inner {
+  background: #fff;
+  color: var(--fg);
+  padding: 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.jg-item {
+  border-radius: var(--radius);
+}
+
+.hero-full {
+  position: relative;
+  width: 100%;
+  /* overflow: hidden; */
+  height: auto;
+}
+
+.hero-full img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  margin-top: -100px;
+  aspect-ratio: 16/9;
+}
+
+#backToTop {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s, visibility .3s, transform .3s;
+  z-index: 1500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#backToTop svg {
+  width: 22px;
+  height: 22px;
+}
+
+#backToTop:hover {
+  transform: scale(1.1);
+}
+
+#backToTop.show {
+  opacity: 1;
+  visibility: visible;
+}
 
 
+/* ===============================
+   Category Landing (Cards with overlay)
+   =============================== */
+
+/* .section-hero-min {
+  padding: 48px 0 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.cat-grid {
+  --cols: 1;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  gap: 18px;
+}
+
+.cat-card {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #0e1216;
+  isolation: isolate;
+}
+
+.cat-card .bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: saturate(.9) contrast(1.02);
+  transform: scale(1.02);
+  transition: transform .35s ease;
+  z-index: -1;
+}
+
+.cat-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+      rgba(0, 0, 0, .0) 10%,
+      rgba(0, 0, 0, .35) 55%,
+      rgba(0, 0, 0, .6) 100%);
+  z-index: 0;
+}
+
+.cat-card .label {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  color: #f1f6f4;
+  font-weight: 800;
+  font-size: clamp(1.2rem, 1.2vw + 1rem, 1.8rem);
+  line-height: 1.1;
+}
+
+.cat-card .label .accent {
+  display: block;
+  height: 6px;
+  width: 74px;
+  border-radius: 999px;
+  background: var(--accent);
+  margin-bottom: 10px;
+}
+
+.cat-card:hover .bg {
+  transform: scale(1.06);
+}
+
+.cat-card a {
+  position: absolute;
+  inset: 0;
+} */
+
+/* ===============================
+   MEDIA QUERIES
+   =============================== */
+@media (min-width:620px) {
+  .contact-form .row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* min-width: 640px */
+@media (min-width:640px) {
+  .cat-grid {
+    --cols: 2;
+  }
+}
+
+/* min-width: 900px */
+@media (min-width:900px) {
+  .contact-wrap {
+    grid-template-columns: 1fr 1.2fr;
+    align-items: start;
+  }
+}
+
+/* min-width: 1024px */
+@media (min-width:1024px) {
+  .cat-grid {
+    --cols: 4;
+    gap: 22px;
+  }
+}
+
+/* max-width: 1024px */
+@media (max-width:1024px) {
+
+  .gallery,
+  .header-inner {
+    padding: 10px 20px;
+  }
+   .hero-full img {
+    margin-top: 0;
+  }
+}
+
+/* max-width: 900px */
+@media (max-width:900px) {
+  .burger {
+    display: inline-block;
+  }
+
+  #primary-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100dvh;
+    width: min(78vw, 360px);
+    transform: translateX(100%);
+    transition: transform .3s ease;
+    background: #fff;
+    border-left: 1px solid var(--line);
+    box-shadow: -20px 0 60px rgba(0, 0, 0, .12);
+    padding: 90px 22px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    z-index: 1200;
+  }
+
+  #primary-nav a {
+    font-size: 16px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 10px 4px;
+  }
+
+  #primary-nav a::after {
+    content: none !important;
+  }
+
+  .nav-open #primary-nav {
+    transform: translateX(0);
+  }
+
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(46, 125, 50, .4);
+    backdrop-filter: blur(1px);
+    z-index: 1100;
+    opacity: 0;
+    transition: opacity .25s ease;
+  }
+
+  .nav-open .nav-overlay {
+    opacity: 1;
+    height: 100vh;
+  }
+
+  .nav-open {
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .header-inner {
+    gap: 10px;
+  }
+
+  .header-inner>#primary-nav {
+    display: flex;
+  }
+}
+
+/* max-width: 600px */
+@media (max-width:768px) {
+ 
+
+  .hero-stack .info-card,
+  .overlap-card {
+    margin: 0;
+    width: 100%;
+  }
+
+  .hero-stack .info-card .card-inner,
+  .overlap-card .card-inner {
+    border-radius: 0;
+    padding: 30px 20px;
+  }
+}
+
+/* max-width: 600px */
+@media (max-width:600px) {
+  :root {
+    --overlap: 18px;
+  }
+}

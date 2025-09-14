@@ -14,7 +14,12 @@
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.css" />
-
+    <link rel="icon" type="image/png" href="assets/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="assets/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="MyWebSite" />
+    <link rel="manifest" href="assets/favicon/site.webmanifest" />
 </head>
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script>
 
@@ -24,9 +29,15 @@
         <div class="header-inner">
             <a class="brand" href="index.html" aria-label="Home">
                 <img class="logo" src="assets/logo.svg" alt="CAPTURE MOMENTS" />
-
             </a>
-            <nav aria-label="Primary">
+
+            <button class="burger" aria-label="Otvori meni" aria-expanded="false" aria-controls="primary-nav">
+                <span class="burger-box" aria-hidden="true">
+                    <span class="burger-inner"></span>
+                </span>
+            </button>
+
+            <nav id="primary-nav" aria-label="Primary">
                 <a class="active" href="index.html">Portfolio</a>
                 <a href="about.html">O meni</a>
                 <a href="contact.html">Kontakt</a>
@@ -46,7 +57,13 @@
                 </a>
             </nav>
         </div>
+
+        <!-- NOVO: overlay za mobilni meni -->
+        <div class="nav-overlay" hidden></div>
     </header>
+
+
+
 
     <main>
         <!-- GALLERY -->
@@ -100,15 +117,22 @@
                 <a href="images/46.webp"><img src="images/46.webp" alt="slika46" loading="lazy" decoding="async"></a>
                 <a href="images/47.webp"><img src="images/47.webp" alt="slika47" loading="lazy" decoding="async"></a>
             </div>
-            </section>
+            </div>
+
+        </section>
     </main>
 
-    <footer class="site-footer">© <span id="year"></span> Filip Josifoski</footer>
+    <footer class="site-footer">© <span id="year"></span> Capture Moments</footer>
+    <button id="backToTop" aria-label="Vrati na vrh">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
 
     <script src="app.js"></script>
     <script>
 
-        // Delegacija: radi i posle relayouta jer koristi selektor
         Fancybox.bind('#jg a', {
             groupAll: true,
             Thumbs: { autoStart: false },
@@ -116,12 +140,13 @@
             caption: null,
             animated: true,
             dragToClose: true,
-            Images: { zoom: true, Panzoom: { maxScale: 2.5 } }, // lep zoom
-            Toolbar: { display: ['counter', 'close'] }, // doda brojač
+            Images: { zoom: true, Panzoom: { maxScale: 2.5 } }, 
+            Toolbar: { display: ['counter', 'close'] }, 
 
 
         });
     </script>
+
 </body>
 
 </html>

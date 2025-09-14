@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kategorije — Capture Moments</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero section-hero-min">
+    <div class="container">
+      <div class="eyebrow">Portfolio</div>
+      <h1 class="heading-accent">Kategorije</h1>
+      <p class="lead">Pregledaj radove po temama. Klik na kategoriju otvara galeriju sa gridom kao na početnoj.</p>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <div class="cat-grid">
+
+        <!-- Svadbe -->
+        <article class="cat-card">
+          <div class="bg" style="background-image:url('images/cover-svadbe.webp');"></div>
+          <div class="label"><span class="accent"></span>Svadbe</div>
+          <a href="galerija-svadbe.html" aria-label="Otvori galeriju: Svadbe"></a>
+        </article>
+
+        <!-- Događaji -->
+        <article class="cat-card">
+          <div class="bg" style="background-image:url('images/cover-dogadjaji.webp');"></div>
+          <div class="label"><span class="accent"></span>Događaji</div>
+          <a href="galerija-dogadjaji.html" aria-label="Otvori galeriju: Događaji"></a>
+        </article>
+
+        <!-- Rođendani -->
+        <article class="cat-card">
+          <div class="bg" style="background-image:url('images/cover-rodjendani.webp');"></div>
+          <div class="label"><span class="accent"></span>Rođendani</div>
+          <a href="galerija-rodjendani.html" aria-label="Otvori galeriju: Rođendani"></a>
+        </article>
+
+        <!-- Krštenja -->
+        <article class="cat-card">
+          <div class="bg" style="background-image:url('images/cover-krstenja.webp');"></div>
+          <div class="label"><span class="accent"></span>Krštenja</div>
+          <a href="galerija-krstenja.html" aria-label="Otvori galeriju: Krštenja"></a>
+        </article>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    © <span id="year"></span> Capture Moments — Sva prava zadržana.
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

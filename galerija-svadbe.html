@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Svadbe — Capture Moments</title>
+  <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.css" />
+
+</head>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script>
+<body>
+  <header class="hero section-hero-min">
+    <div class="container">
+      <div class="eyebrow">Galerija</div>
+      <h1 class="heading-accent">Svadbe</h1>
+      <p class="lead">Kliknite na fotografiju za prikaz u punoj veličini.</p>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <section id="work" class="gallery" aria-label="Galerija radova">
+        <div id="jg" class="justified">
+          <a href="images/1.webp"><img src="images/1.webp" alt="slika1"></a>
+          <a href="images/2.webp"><img src="images/2.webp" alt="slika2"></a>
+          <a href="images/3.webp"><img src="images/3.webp" alt="slika3"></a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    © <span id="year"></span> Capture Moments — Sva prava zadržana.
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+   <script src="app.js"></script>
+    <script>
+
+        Fancybox.bind('#work a', {
+            groupAll: true,
+            Thumbs: { autoStart: false },
+            Toolbar: { display: ['close'] },
+            caption: null,
+            animated: true,
+            dragToClose: true,
+            Images: { zoom: true, Panzoom: { maxScale: 2.5 } }, 
+            Toolbar: { display: ['counter', 'close'] }, 
+
+
+        });
+    </script>
+</body>
+</html>
