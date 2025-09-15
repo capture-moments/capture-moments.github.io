@@ -66,11 +66,13 @@ function setupJustifiedGallery() {
   });
 
   function layout() {
+    const prevScrollY = window.scrollY;
     const items = anchors.map(a => {
       const img = a.querySelector('img');
       const ar = (img.naturalWidth || 3) / (img.naturalHeight || 2);
       const a2 = a.cloneNode(true);
       return { a: a2, ar };
+      window.scrollTo(0, prevScrollY);
     });
 
     container.innerHTML = '';
