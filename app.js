@@ -44,111 +44,129 @@ function setupJustifiedGallery() {
   if (!container) return;
 
   const GAP = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gutter')) || 18;
-  const TARGET_ROW_H = 300;   // možeš 240–320 po ukusu
+  const TARGET_ROW_H = 300;   // 240–320 po ukusu
   const MAX_ROW_DEV = 0.20;
-  const JUSTIFY_LAST_ROW = true;
-  const WIDOW_MIN_FILL = 0.95;
+  const JUSTIFY_LAST_ROW = true;   // stavi false ako nećeš da se poslednji red razvlači
+  const WIDOW_MIN_FILL = 0.95;     // koliko da bude popunjena poslednja linija kad nije justify
 
-  const anchors = Array.from(container.querySelectorAll('a'));
+  // Uzmemo postojeće <a> (NE kloniramo!)
+  const anchors = Array.from(container.querySelectorAll(':scope > a'));
 
-  // sačekaj da se sve slike učitaju da znamo dimenzije
+  // Sačekaj da slike imaju dimenzije
   Promise.all(
     anchors.map(a => new Promise(res => {
       const img = a.querySelector('img');
+      if (!img) return res();
       if (img.complete && img.naturalWidth) return res();
       img.onload = res; img.onerror = res;
     }))
-  ).then(layout);
-
-  window.addEventListener('resize', () => {
-    clearTimeout(window.__jg_rt);
-    window.__jg_rt = setTimeout(layout, 120);
+  ).then(() => {
+    layout();
+    // Debounce za resize
+    let rt;
+    window.addEventListener('resize', () => {
+      clearTimeout(rt);
+      rt = setTimeout(layout, 120);
+    });
   });
 
   function layout() {
+    const totalW = container.clientWidth || container.getBoundingClientRect().width;
+
+    // Zadrži visinu kontejnera tokom relayouta (spreči skok)
+    const prevH = container.offsetHeight;
+    if (prevH) container.style.minHeight = prevH + 'px';
+
+    // (opciono) sačuvaj skrol poziciju — safety net
+    const prevScrollY = window.scrollY;
+
+    // Pripremi stavke sa AR
     const items = anchors.map(a => {
       const img = a.querySelector('img');
-      const ar = (img.naturalWidth || 3) / (img.naturalHeight || 2);
+      const ar = img ? ( (img.naturalWidth || 3) / (img.naturalHeight || 2) ) : 1;
       return { a, ar };
     });
 
-    // container.innerHTML = '';
-    const totalW = container.getBoundingClientRect().width;
-
-    let row = [], arSum = 0;
+    // Složi redove u memoriji (ne diramo DOM dok ne završimo)
+    const rows = [];
+    let row = [];
+    let arSum = 0;
 
     for (let i = 0; i < items.length; i++) {
       row.push(items[i]);
       arSum += items[i].ar;
       const rowW = arSum * TARGET_ROW_H + GAP * (row.length - 1);
       if (rowW > totalW * (1 - MAX_ROW_DEV)) {
-        renderRow(row, totalW, GAP, arSum, /*isLast=*/false);
-        row = []; arSum = 0;
+        rows.push({ items: row, sum: arSum });
+        row = [];
+        arSum = 0;
       }
     }
 
+    // Ako je ostao rep (poslednji red)
     if (row.length) {
-      const contentW = totalW - GAP * (row.length - 1);
-      const lastRowWidthAtTarget = arSum * TARGET_ROW_H;
+      if (!JUSTIFY_LAST_ROW) {
+        // Ako nećeš justify poslednjeg reda, probaj blago da ga dopuniš iz prethodnog
+        let sumLast = arSum;
+        if (rows.length) {
+          const prev = rows[rows.length - 1];
+          const contentW = totalW - GAP * (row.length - 1);
+          let fill = (sumLast * TARGET_ROW_H) / contentW;
 
-      if (JUSTIFY_LAST_ROW) {
-        renderRow(row, totalW, GAP, arSum, /*isLast=*/false);
-      } else {
-        let fillRatio = lastRowWidthAtTarget / contentW;
-
-        if (fillRatio < WIDOW_MIN_FILL && container.lastElementChild) {
-          const prevRowEl = container.lastElementChild;
-          const prevItems = Array.from(prevRowEl.querySelectorAll('.jg-item > a'))
-            .map(a => {
-              const img = a.querySelector('img');
-              const ar = (img.naturalWidth || 3) / (img.naturalHeight || 2);
-              return { a, ar };
-            });
-
-          container.removeChild(prevRowEl);
-
-          while (fillRatio < WIDOW_MIN_FILL && prevItems.length) {
-            const moved = prevItems.pop();
+          // Vuci iz prethodnog reda dok ne napuni ~95%
+          while (fill < WIDOW_MIN_FILL && prev.items.length > 1) {
+            const moved = prev.items.pop();
+            prev.sum -= moved.ar;
             row.unshift(moved);
-            arSum += moved.ar;
+            sumLast += moved.ar;
             const contentW2 = totalW - GAP * (row.length - 1);
-            const lastRowWidth2 = arSum * TARGET_ROW_H;
-            if (contentW2 > 0) fillRatio = lastRowWidth2 / contentW2;
+            fill = (sumLast * TARGET_ROW_H) / contentW2;
           }
-
-          if (prevItems.length) {
-            const prevArSum = prevItems.reduce((s, it) => s + it.ar, 0);
-            renderRow(prevItems, totalW, GAP, prevArSum, /*isLast=*/false);
-          }
-          renderRow(row, totalW, GAP, arSum, /*isLast=*/false);
-        } else {
-          renderRow(row, totalW, GAP, arSum, /*isLast=*/true);
         }
+        rows.push({ items: row, sum: sumLast, isLast: true });
+      } else {
+        // Justify i poslednji
+        rows.push({ items: row, sum: arSum, isLast: false });
       }
     }
+
+    // Sastavi novi sadržaj u fragmentu
+    const frag = document.createDocumentFragment();
+
+    for (const r of rows) {
+      const rowEl = document.createElement('div');
+      rowEl.className = 'jg-row';
+      rowEl.style.gap = GAP + 'px';
+
+      const isLast = !!r.isLast;
+      const h = isLast ? TARGET_ROW_H : ((totalW - GAP * (r.items.length - 1)) / r.sum);
+
+      for (const { a, ar } of r.items) {
+        const w = h * ar;
+        const wrap = document.createElement('div');
+        wrap.className = 'jg-item';
+        wrap.style.width = w + 'px';
+        wrap.style.height = h + 'px';
+        wrap.appendChild(a); // premesti postojeći <a> (bez kloniranja)
+        rowEl.appendChild(wrap);
+      }
+
+      frag.appendChild(rowEl);
+    }
+
+    // Jedan atomic replace (nema innerHTML = '')
+    container.replaceChildren(frag);
+
+    // Očisti zaštitni minHeight
+    container.style.minHeight = '';
+
+    // Vrati skrol na isto mesto (ako je browser ipak cimnuo)
+    if (typeof prevScrollY === 'number') {
+      window.scrollTo(0, prevScrollY);
+    }
   }
-
-  function renderRow(row, totalW, gap, arSum, isLast) {
-    const rowEl = document.createElement('div');
-    rowEl.className = 'jg-row';
-    rowEl.style.gap = gap + 'px';
-
-    const h = isLast ? TARGET_ROW_H : ((totalW - gap * (row.length - 1)) / arSum);
-
-    row.forEach(({ a, ar }) => {
-      const w = h * ar;
-      const wrap = document.createElement('div');
-      wrap.className = 'jg-item';
-      wrap.style.width = w + 'px';
-      wrap.style.height = h + 'px';
-      wrap.appendChild(a);
-      rowEl.appendChild(wrap);
-    });
-
-    container.appendChild(rowEl);
-  }
-
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
   setupJustifiedGallery();
