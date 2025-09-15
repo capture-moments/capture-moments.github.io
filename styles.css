@@ -773,4 +773,8 @@ h2 {
   :root {
     --overlap: 18px;
   }
+  .logo{
+    height: 40px;
+    width: auto;
+  }
 }

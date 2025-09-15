@@ -159,7 +159,9 @@ function setHeaderOffset() {
   if (!header) return;
   document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
 }
-setHeaderOffset();
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(setHeaderOffset, 100);
+});
 window.addEventListener('resize', setHeaderOffset);
 
 (function () {
