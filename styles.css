@@ -558,6 +558,9 @@ h2 {
   visibility: visible;
 }
 
+.nav-overlay[hidden] {
+    display: none !important;
+}
 
 /* ===============================
    Category Landing (Cards with overlay)
