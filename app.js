@@ -69,10 +69,11 @@ function setupJustifiedGallery() {
     const items = anchors.map(a => {
       const img = a.querySelector('img');
       const ar = (img.naturalWidth || 3) / (img.naturalHeight || 2);
-      return { a, ar };
+      const a2 = a.cloneNode(true);
+      return { a: a2, ar };
     });
 
-    // container.innerHTML = '';
+    container.innerHTML = '';
     const totalW = container.getBoundingClientRect().width;
 
     let row = [], arSum = 0;
@@ -147,7 +148,7 @@ function setupJustifiedGallery() {
 
     container.appendChild(rowEl);
   }
-
+  
 }
 
 document.addEventListener('DOMContentLoaded', () => {
