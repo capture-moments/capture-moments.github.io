@@ -38,52 +38,65 @@ if (form) {
   window.addEventListener('pageshow', (e) => { if (e.persisted) form.reset(); });
 }
 
-// === JUSTIFIED GALLERY (Flickr-style) ===
-function setupJustifiedGallery() {
-  const container = document.getElementById('jg');
+// === JUSTIFIED GALLERY (Flickr-style) — per-page options via data-* ===
+function setupJustifiedGallery(selector = '#jg', userOpts = {}) {
+  const container = document.querySelector(selector);
   if (!container) return;
 
-  const GAP = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gutter')) || 18;
-  const TARGET_ROW_H = 300;   // možeš 240–320 po ukusu
-  const MAX_ROW_DEV = 0.20;
-  const JUSTIFY_LAST_ROW = true;
-  const WIDOW_MIN_FILL = 0.95;
+  // ---- OPTIONS (prioritet: data-* > userOpts > CSS var > default)
+  const cssGutter = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gutter')) || null;
+  const ds = container.dataset;
 
+  const GAP = parseInt(ds.gap ?? userOpts.gap ?? cssGutter ?? 22);            // px
+  const TARGET_ROW_H_BASE = parseInt(ds.rowH ?? userOpts.targetRowH ?? 300);  // px
+  const TARGET_ROW_H_SM   = parseInt(ds.rowHSm ?? userOpts.rowHSm ?? TARGET_ROW_H_BASE - 40);
+  const MAX_ROW_DEV = parseFloat(ds.maxDev ?? userOpts.maxRowDev ?? 0.20);    // 0–1
+  const JUSTIFY_LAST_ROW = (ds.justifyLastRow ?? userOpts.justifyLastRow ?? 'true') === 'true';
+  const WIDOW_MIN_FILL = parseFloat(ds.widowFill ?? userOpts.widowMinFill ?? 0.95);
+
+  // responsive target height (po uzoru na stari home)
+  function targetRowH() {
+    const w = container.getBoundingClientRect().width;
+    if (w < 640) return TARGET_ROW_H_SM;  
+    return TARGET_ROW_H_BASE;
+  }
+
+  // ---- SOURCE ITEMS
   const anchors = Array.from(container.querySelectorAll('a'));
 
-  // sačekaj da se sve slike učitaju da znamo dimenzije
   Promise.all(
     anchors.map(a => new Promise(res => {
       const img = a.querySelector('img');
-      if (img.complete && img.naturalWidth) return res();
+      if (img && img.complete && img.naturalWidth) return res();
+      if (!img) return res();
       img.onload = res; img.onerror = res;
     }))
   ).then(layout);
 
+  // re-layout na resize (debounce)
+  let rt;
   window.addEventListener('resize', () => {
-    clearTimeout(window.__jg_rt);
-    window.__jg_rt = setTimeout(layout, 120);
+    clearTimeout(rt);
+    rt = setTimeout(layout, 120);
   });
 
   function layout() {
-    const prevScrollY = window.scrollY;
     const items = anchors.map(a => {
       const img = a.querySelector('img');
-      const ar = (img.naturalWidth || 3) / (img.naturalHeight || 2);
-      const a2 = a.cloneNode(true);
-      return { a: a2, ar };
-      window.scrollTo(0, prevScrollY);
+      const ar = img ? (img.naturalWidth || 3) / (img.naturalHeight || 2) : 3/2;
+      return { a, ar };
     });
 
-    container.innerHTML = '';
     const totalW = container.getBoundingClientRect().width;
+    container.innerHTML = '';
 
-    let row = [], arSum = 0;
+    let row = [], arSum = 0, H = targetRowH();
 
     for (let i = 0; i < items.length; i++) {
       row.push(items[i]);
       arSum += items[i].ar;
-      const rowW = arSum * TARGET_ROW_H + GAP * (row.length - 1);
+      const rowW = arSum * H + GAP * (row.length - 1);
+
       if (rowW > totalW * (1 - MAX_ROW_DEV)) {
         renderRow(row, totalW, GAP, arSum, /*isLast=*/false);
         row = []; arSum = 0;
@@ -91,43 +104,27 @@ function setupJustifiedGallery() {
     }
 
     if (row.length) {
-      const contentW = totalW - GAP * (row.length - 1);
-      const lastRowWidthAtTarget = arSum * TARGET_ROW_H;
-
       if (JUSTIFY_LAST_ROW) {
         renderRow(row, totalW, GAP, arSum, /*isLast=*/false);
       } else {
-        let fillRatio = lastRowWidthAtTarget / contentW;
-
-        if (fillRatio < WIDOW_MIN_FILL && container.lastElementChild) {
-          const prevRowEl = container.lastElementChild;
-          const prevItems = Array.from(prevRowEl.querySelectorAll('.jg-item > a'))
-            .map(a => {
-              const img = a.querySelector('img');
-              const ar = (img.naturalWidth || 3) / (img.naturalHeight || 2);
-              return { a, ar };
-            });
-
-          container.removeChild(prevRowEl);
-
-          while (fillRatio < WIDOW_MIN_FILL && prevItems.length) {
-            const moved = prevItems.pop();
-            row.unshift(moved);
-            arSum += moved.ar;
-            const contentW2 = totalW - GAP * (row.length - 1);
-            const lastRowWidth2 = arSum * TARGET_ROW_H;
-            if (contentW2 > 0) fillRatio = lastRowWidth2 / contentW2;
-          }
-
-          if (prevItems.length) {
-            const prevArSum = prevItems.reduce((s, it) => s + it.ar, 0);
-            renderRow(prevItems, totalW, GAP, prevArSum, /*isLast=*/false);
-          }
-          renderRow(row, totalW, GAP, arSum, /*isLast=*/false);
-        } else {
-          renderRow(row, totalW, GAP, arSum, /*isLast=*/true);
-        }
+        renderRow(row, totalW, GAP, arSum, /*isLast=*/true);
       }
+    }
+
+    // rebind Fancybox (safe)
+    if (window.Fancybox) {
+      Fancybox.destroy();
+      Fancybox.bind(selector + ' a', {
+        groupAll: true,
+        Thumbs: { autoStart: false },
+        Toolbar: { display: ['counter', 'close'] },
+        Images: { zoom: true, Panzoom: { maxScale: 2.5 } },
+        caption: null,
+        animated: true,
+        dragToClose: true,
+        trapFocus: false,
+        placeFocusBack: false
+      });
     }
   }
 
@@ -136,22 +133,39 @@ function setupJustifiedGallery() {
     rowEl.className = 'jg-row';
     rowEl.style.gap = gap + 'px';
 
-    const h = isLast ? TARGET_ROW_H : ((totalW - gap * (row.length - 1)) / arSum);
+    const contentW = totalW - gap * (row.length - 1);
+    const H = isLast ? Math.min(targetRowH(), contentW / arSum) : (contentW / arSum);
 
     row.forEach(({ a, ar }) => {
-      const w = h * ar;
+      const w = H * ar;
       const wrap = document.createElement('div');
       wrap.className = 'jg-item';
       wrap.style.width = w + 'px';
-      wrap.style.height = h + 'px';
-      wrap.appendChild(a);
+      wrap.style.height = H + 'px';
+      wrap.appendChild(a); // pomeramo POSTOJEĆE <a> (ne kloniramo)
       rowEl.appendChild(wrap);
     });
 
     container.appendChild(rowEl);
   }
-  
+  requestAnimationFrame(() => {
+  const newImgs = Array.from(container.querySelectorAll('.jg-item img'));
+  const waits = newImgs.map(img => {
+    if (img.decode) return img.decode().catch(() => {});
+    if (img.complete) return Promise.resolve();
+    return new Promise(res => { img.onload = img.onerror = res; });
+  });
+  Promise.all(waits).then(() => {
+    container.dispatchEvent(new Event('jg:ready'));
+  });
+});
 }
+
+// auto-init
+document.addEventListener('DOMContentLoaded', () => {
+  setupJustifiedGallery('#jg');
+});
+
 
 document.addEventListener('DOMContentLoaded', () => {
   setupJustifiedGallery();
@@ -229,3 +243,15 @@ window.addEventListener("scroll", () => {
 backToTop.addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
+
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const cont = document.getElementById('jg');
+    const loader = document.getElementById('loader');
+    if (!cont || !loader) return;
+
+    cont.addEventListener('jg:ready', () => {
+      loader.classList.add('hidden');
+      setTimeout(() => loader.remove(), 500);
+    }, { once: true });
+  });

@@ -25,8 +25,6 @@
 
 
 <body>
-
-
     <header class="site-header">
         <div class="header-inner">
             <a class="brand" href="index.html" aria-label="Home">
@@ -44,7 +42,6 @@
                 <a href="about.html">O meni</a>
                 <a href="contact.html">Kontakt</a>
                 <a href="kategorije.html">Kategorije</a>
-
 
                 <a class="icon-link" href="https://instagram.com/filipjosifoski" target="_blank" rel="noopener"
                     aria-label="Instagram">
@@ -68,46 +65,32 @@
     </header>
 
 
-  <main class="section">
-    <div class="container">
-        <h2 class="page-title">Portfolio</h2>
-
-      <section class="categories">
-
-        <!-- Dečiji rođendani -->
-        <article class="cat-card card--contain">
-          <div class="bg" style="background-image:url('images/3.webp');"></div>
-          <div class="label"><span class="accent"></span>Dečiji rođendani</div>
-          <a href="birthdays.html" aria-label="Otvori galeriju: Dečiji rođendani"></a>
-        </article>
-
-        <!-- Svadbe -->
-        <article class="cat-card">
-          <div class="bg" style="background-image:url('images/33.webp');"></div>
-          <div class="label"><span class="accent"></span>Svadbe</div>
-          <a href="weddings.html" aria-label="Otvori galeriju: Svadbe"></a>
-        </article>
-
-        <!-- Događaji -->
-        <article class="cat-card">
-          <div class="bg" style="background-image:url('images/18.webp');"></div>
-          <div class="label"><span class="accent"></span>Događaji</div>
-          <a href="events.html" aria-label="Otvori galeriju: Događaji"></a>
-        </article>
-
-        <!-- Lifestyle -->
-        <article class="cat-card">
-          <div class="bg" style="background-image:url('images/29.webp');"></div>
-          <div class="label"><span class="accent"></span>Lifestyle</div>
-          <a href="lifestyle.html" aria-label="Otvori galeriju: Lifestyle"></a>
-        </article>
-      </section>
 
 
-    </div>
-  </main>
+    <main>
+        <!-- GALLERY -->
+        <section id="work" class="gallery" aria-label="Galerija radova">
+            <h2 class="page-title">Dečiji rođendani</h2>
+            <div id="jg" class="justified" data-gap="20" data-row-h="200" data-row-h-sm="260" data-max-dev="0.60"
+                data-justify-last-row="true" data-widow-fill="0.95">
+                <a href="images/1.webp"><img src="images/1.webp" alt="slika1" loading="lazy" decoding="async"></a>
+                <a href="images/2.webp"><img src="images/2.webp" alt="slika2" loading="lazy" decoding="async"></a>
+                <a href="images/3.webp"><img src="images/3.webp" alt="slika3" loading="lazy" decoding="async"></a>
+                <a href="images/4.webp"><img src="images/4.webp" alt="slika4" loading="lazy" decoding="async"></a>
+                <a href="images/5.webp"><img src="images/5.webp" alt="slika5" loading="lazy" decoding="async"></a>
+                <a href="images/6.webp"><img src="images/6.webp" alt="slika6" loading="lazy" decoding="async"></a>
+                <a href="images/7.webp"><img src="images/7.webp" alt="slika7" loading="lazy" decoding="async"></a>
+                <a href="images/8.webp"><img src="images/8.webp" alt="slika8" loading="lazy" decoding="async"></a>
+                <a href="images/9.webp"><img src="images/9.webp" alt="slika9" loading="lazy" decoding="async"></a>
+                <a href="images/10.webp"><img src="images/10.webp" alt="slika10" loading="lazy" decoding="async"></a>
+                <a href="images/11.webp"><img src="images/11.webp" alt="slika11" loading="lazy" decoding="async"></a>
+            </div>
+            </div>
 
- <footer class="site-footer">© <span id="year"></span> Capture Moments</footer>
+        </section>
+    </main>
+
+    <footer class="site-footer">© <span id="year"></span> Capture Moments</footer>
     <button id="backToTop" aria-label="Vrati na vrh">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
@@ -115,7 +98,25 @@
         </svg>
     </button>
 
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+    <script src="app.js"></script>
+    <script>
+
+        Fancybox.bind('#jg a', {
+            groupAll: true,
+            Thumbs: { autoStart: false },
+            Toolbar: { display: ['close'] },
+            caption: null,
+            animated: true,
+            dragToClose: true,
+            Images: { zoom: true, Panzoom: { maxScale: 2.5 } },
+            Toolbar: { display: ['counter', 'close'] },
+            trapFocus: false,
+            placeFocusBack: false
+
+
+        });
+    </script>
+
 </body>
 
 </html>
