@@ -4,10 +4,16 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
     <title>Capture moments – Portfolio</title>
-    <meta name="description" content="Fotografski portfolio – fokus na slike." />
-    <!-- Privremeno noindex dok ne objavimo -->
-    <meta name="robots" content="noindex, nofollow">
+    <meta name="description"
+        content="Capture Moments – fotografski portfolio. Trenuci koji zauvek ostaju, profesionalna fotografija za venčanja, događaje i proslave u Beogradu.">
+    <meta property="og:title" content="Capture Moments – Fotografski portfolio">
+    <meta property="og:description" content="Profesionalna fotografija za venčanja, događaje i proslave.">
+    <meta property="og:image" content="https://capture-moments.github.io/assets/hero-image.webp">
+    <meta property="og:url" content="https://capture-moments.github.io/">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
@@ -25,16 +31,16 @@
 
 
 <body>
-<div id="loader" aria-live="polite" aria-label="Učitavanje">
-  <div class="loader-wrap">
-    <div class="spinner" aria-hidden="true"></div>
-    <img class="loader-logo" src="assets/logo.svg" alt="Capture Moments">
-  </div>
-</div>
+    <div id="loader" aria-live="polite" aria-label="Učitavanje">
+        <div class="loader-wrap">
+            <div class="spinner" aria-hidden="true"></div>
+            <img class="loader-logo" src="assets/logo.svg" alt="Capture Moments">
+        </div>
+    </div>
     <header class="site-header">
         <div class="header-inner">
-            <a class="brand" href="index.html" aria-label="Home">
-                <img class="logo" src="assets/logo.svg" alt="CAPTURE MOMENTS" />
+            <a class="brand" href="index.html" aria-label="Home" title="Capture Moments">
+                <img class="logo" src="assets/logo.svg" alt="Capture Moments" />
             </a>
 
             <button class="burger" aria-label="Otvori meni" aria-expanded="false" aria-controls="primary-nav">
@@ -47,36 +53,20 @@
                 <a class="active" href="index.html">Portfolio</a>
                 <a href="about.html">O meni</a>
                 <a href="contact.html">Kontakt</a>
-                <a href="kategorije.html">Kategorije</a>
-
-                <a class="icon-link" href="https://instagram.com/filipjosifoski" target="_blank" rel="noopener"
+                <a class="icon-link" href="https://instagram.com/capturemoments777" target="_blank" rel="noopener"
                     aria-label="Instagram">
-                    <svg class="e-font-icon-svg e-fab-instagram" viewBox="0 0 448 512"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 
-                            74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 
-                            27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 
-                            184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 
-                            0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7
-                             9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z">
-                        </path>
-                    </svg>
+                    <img src="assets/ig-icon.svg">
                 </a>
             </nav>
         </div>
-
-        <!-- NOVO: overlay za mobilni meni -->
         <div class="nav-overlay" hidden></div>
     </header>
-
-
-
 
     <main>
         <!-- GALLERY -->
         <section id="work" class="gallery" aria-label="Galerija radova">
-            <div id="jg" class="justified">
+            <div id="jg" class="justified" data-justify-last-row="false">
+                <!--  -->
                 <a href="images/1.webp"><img src="images/1.webp" alt="slika1" loading="lazy" decoding="async"></a>
                 <a href="images/2.webp"><img src="images/2.webp" alt="slika2" loading="lazy" decoding="async"></a>
                 <a href="images/3.webp"><img src="images/3.webp" alt="slika3" loading="lazy" decoding="async"></a>
@@ -138,24 +128,6 @@
     </button>
 
     <script src="app.js"></script>
-    <script>
-
-        Fancybox.bind('#jg a', {
-            groupAll: true,
-            Thumbs: { autoStart: false },
-            Toolbar: { display: ['close'] },
-            caption: null,
-            animated: true,
-            dragToClose: true,
-            Images: { zoom: true, Panzoom: { maxScale: 2.5 } },
-            Toolbar: { display: ['counter', 'close'] },
-            trapFocus: false,
-            placeFocusBack: false
-
-
-        });
-    </script>
-
 </body>
 
 </html>
