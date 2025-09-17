@@ -98,26 +98,18 @@ function setupJustifiedGallery(selector = '#jg', userOpts = {}) {
     }, 120);
   });
 
-  let boundCount = 0;
-  function bindLightboxIfNeeded() {
-    if (!window.Fancybox) return;
-    const count = container.querySelectorAll('a').length;
-    if (count !== boundCount) {
-      Fancybox.destroy();
-      Fancybox.bind(selector + ' a', {
-        groupAll: true,
-        Thumbs: { autoStart: false },
-        Toolbar: { display: ['counter', 'close'] },
-        Images: { zoom: true, Panzoom: { maxScale: 2.5 } },
-        caption: null,
-        animated: true,
-        dragToClose: true,
-        trapFocus: false,
-        placeFocusBack: false
-      });
-      boundCount = count;
-    }
-  }
+ if (window.Fancybox) {
+  Fancybox.bind('[data-fancybox="gallery"]', {
+    Thumbs: { autoStart: false },
+    Toolbar: { display: ['counter', 'close'] },
+    Images: { zoom: true, Panzoom: { maxScale: 2.5 } },
+    animated: true,
+    dragToClose: true,
+    trapFocus: false,
+    placeFocusBack: false
+  });
+}
+
 
   function layout() {
     const prevY = window.scrollY; 
@@ -174,7 +166,6 @@ function setupJustifiedGallery(selector = '#jg', userOpts = {}) {
     }
 
     container.replaceChildren(frag);
-    bindLightboxIfNeeded();
 
     requestAnimationFrame(() => window.scrollTo(0, prevY));
 
@@ -286,4 +277,21 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => loader.remove(), 500);
     }
   }, 2500);
+});
+/* ================================
+   AR fallback + fetch priority
+================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  const cont = document.querySelector('#jg');
+  if (!cont) return;
+  const imgs = cont.querySelectorAll('a > img');
+  imgs.forEach((img, i) => {
+    const hasSizeAttrs = img.hasAttribute('width') && img.hasAttribute('height');
+    if (!hasSizeAttrs && !img.dataset.ar) {
+      img.dataset.ar = '1.5'; 
+    }
+    if (i < 4 && !img.hasAttribute('fetchpriority')) {
+      img.setAttribute('fetchpriority', 'high');
+    }
+  });
 });
