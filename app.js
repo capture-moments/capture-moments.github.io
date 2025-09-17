@@ -1,5 +1,6 @@
 // footer year
-document.getElementById('year').textContent = new Date().getFullYear();
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 // CONTACT FORM AJAX
 const form = document.getElementById('contactForm');
@@ -142,7 +143,7 @@ function setupJustifiedGallery(selector = '#jg', userOpts = {}) {
       wrap.className = 'jg-item';
       wrap.style.width = w + 'px';
       wrap.style.height = H + 'px';
-      wrap.appendChild(a); // pomeramo POSTOJEĆE <a> (ne kloniramo)
+      wrap.appendChild(a); // move a
       rowEl.appendChild(wrap);
     });
 
@@ -166,10 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupJustifiedGallery('#jg');
 });
 
-
-document.addEventListener('DOMContentLoaded', () => {
-  setupJustifiedGallery();
-});
 const header = document.querySelector('.site-header');
 function setHeaderOffset() {
   if (!header) return;
